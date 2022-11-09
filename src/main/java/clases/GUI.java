@@ -1,6 +1,6 @@
 package clases;
 
-public class GUI extends javax.swing.JFrame {
+public final class GUI extends javax.swing.JFrame {
 
     /**
      * Creates new form GUI
@@ -8,6 +8,25 @@ public class GUI extends javax.swing.JFrame {
     public GUI() {
         initComponents();
         setLocationRelativeTo(null);
+        load(1000);
+    }
+
+    public void load(int time) {
+        //Instrucciones      
+        String p1[] = {"  Load r1, A   ", "---------------", " Add r4, r1, r1", "Storage D, r4  ", "---------------"};
+        String p2[] = {"  Load r2, B   ", "---------------", "Addi r3, r2, r1", "  Load r6, E   ", "---------------", " Addi r6, r6, 3", " Storage G, r6 ", "---------------"};
+        String p3[] = {"  Load r7, C   ", "---------------", " Mul r8, r7, r7", "---------------", "---------------", "  Load r4, D   ", "---------------", " Sub r5, r4, r8",
+            "  Load r6, E   ", "---------------", "Add r6, r6, r5 ", " Storage F, r6 ", "---------------"};
+
+        //Hilos
+        Thread h1 = new Thread(new Hilo(panel, time, p1, 20));
+        Thread h2 = new Thread(new Hilo(panel, time, p2, 90));
+        Thread h3 = new Thread(new Hilo(panel, time, p3, 160));
+
+        //Ejecucion
+        h1.start();
+        h2.start();
+        h3.start();
     }
 
     /**
@@ -21,7 +40,6 @@ public class GUI extends javax.swing.JFrame {
 
         panel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(java.awt.SystemColor.activeCaption);
@@ -32,73 +50,43 @@ public class GUI extends javax.swing.JFrame {
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 1366, Short.MAX_VALUE)
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 291, Short.MAX_VALUE)
+            .addGap(0, 301, Short.MAX_VALUE)
         );
 
+        jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Representación de un algoritmo paralelo");
-
-        jButton1.setText("Ejecutar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1072, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addGap(12, 12, 12)
+                        .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1366, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //Ciclos de ejecución
-        String[] ciclos = {"    1", "    2", "    3", "    4", "    5", "    6", "    7", "    8", "    9", "    10", "    11", "    12", "13"};
-
-        //Instrucciones      
-        String p1[] = {"Load r1, A", "----", "Add r4, r1, r1", "Storage D, r4", "----"};
-        String p2[] = {"Load r2, B", "----", "Addi r3, r2, r1", "Load r6, E", "----", "Addi r6, r6, 3", "Storage G, r6", "----"};
-        String p3[] = {"Load r7, C", "----", "Mul r8, r7, r7", "----", "----", "Load r4, D", "----", "Sub r5, r4, r8", 
-            "Load r6, E", "----", "Add r6, r6, r5", "Storage F, r6", "----"};
-
-        //Hilos
-        Hilo num_ciclos = new Hilo(0, panel, 220, ciclos, " ");
-        Hilo h1 = new Hilo(1000, panel, 20, p1, "P1");
-        Hilo h2 = new Hilo(1000, panel, 90, p2, "P2");
-        Hilo h3 = new Hilo(1000, panel, 160, p3, "P3");
-
-        //Ejecucion
-        num_ciclos.start();// Plano en eje x (1 - 15)
-        h1.start();
-        h2.start();
-        h3.start();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -141,7 +129,6 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel panel;
     // End of variables declaration//GEN-END:variables

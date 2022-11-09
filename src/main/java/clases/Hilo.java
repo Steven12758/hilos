@@ -7,56 +7,66 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
 
-/**
- *
- * @author steven
- */
-public class Hilo extends Thread {
+public class Hilo implements Runnable {
 
-    private final JPanel panel;
+    private JPanel panel;
     private Color color;
-    private final int time;
-    private final int y;
-    private final String[] instructions;
-    private final String processor;
+    private int time;
+    private int pos_eje_y;
+    private int pos_eje_x;
+    private String[] instructions;
 
-    public Hilo(int time, JPanel panel, int y, String[] instructions, String processor) {
-        this.time = time;
+    public Hilo(JPanel panel, int time, String[] instructions, int position) {
         this.panel = panel;
+        this.time = time;
         this.instructions = instructions;
-        this.processor = processor;
-        this.y = y;
+        this.pos_eje_x = 50;
+        this.pos_eje_y = position;
     }
 
+    @Override
     public void run() {
-        int x = 50;
         for (int i = 0; i < instructions.length; i++) {
             try {
                 Thread.sleep(time);
                 if (i <= 4) {
                     color = Color.ORANGE;
-                } else if (i == 5 & i <= 7) {
+                } else if (i >= 5 & i <= 7) {
                     color = Color.GRAY;
-                } else if (i == 8) {
+                } else {
                     color = Color.GREEN;
                 }
             } catch (InterruptedException ex) {
                 Logger.getLogger(Hilo.class.getName()).log(Level.SEVERE, null, ex);
             }
-            graficar_ciclos(panel.getGraphics(), x, y, instructions[i], color, processor);
-            x += 100;
+            draw_line(panel.getGraphics());
+            draw_processes(panel.getGraphics(), pos_eje_x, pos_eje_y, instructions[i], color);
+            pos_eje_x += 100;
         }
     }
 
-    public void graficar_ciclos(Graphics g, int x, int y, String name, Color color, String processor) {
-        Font title = new Font("Serif", Font.BOLD, 11);
-        g.setColor(color);
-        g.fillRect(x, y, 90, 40);
-        g.setColor(Color.white);
+    public void draw_line(Graphics g) {
+        int pos_x = 90;
+        g.setColor(Color.BLACK);
+        //eje X
+        g.drawLine(0, 210, 1340, 210);
+        int i = 0;
+        while (i < 13) {
+            g.drawString("" + (i + 1), (pos_x), 230);
+            pos_x += 100;
+            i++;
+        }
+        //eje Y
         g.drawLine(30, 10, 30, 250);
-        g.drawLine(0, 210, x + 90, 210);
-        g.drawString(name, x + 4, y + 25);
-        g.setFont(title);
-        g.drawString(processor, x + 5, y - 5);
+        g.drawString("1", 15, 40);
+        g.drawString("2", 15, 110);
+        g.drawString("3", 15, 180);
+    }
+
+    public void draw_processes(Graphics g, int x, int y, String inst, Color color) {
+        g.setColor(color);
+        g.fillRect(x, y, 95, 40);
+        g.setColor(Color.BLACK);
+        g.drawString(inst, x + 4, y + 25);
     }
 }
